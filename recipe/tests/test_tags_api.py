@@ -83,3 +83,13 @@ class PrivateTagsApiTests(TestCase):
         tag = Tag.objects.create(user=user2, name='Conford Food')
 
         res = self.client.get(TAGS_URL)
+
+    def test_create_tag_successful(self):
+
+        """ Prueba creando nuevo tag """
+
+        payload = {'name': 'Simple'}
+
+        self.client.post(TAGS_URL, payload)
+
+        exists = Tag.objects.filter
