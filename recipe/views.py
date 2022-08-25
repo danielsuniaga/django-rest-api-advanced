@@ -10,7 +10,7 @@ from recipe import serializers
 
 # Create your views here.
 
-class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
 
     """ Manejar Tags en base de datos """
 
@@ -27,3 +27,10 @@ class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         """ Retornar objetos para el usurio autenticado """
 
         return self.queryset.filter(user=self.request.user).order_by('-name')
+
+    def perform_create(self, serializer):
+        
+        """ Crear un nuevo Tag """
+
+        serializer.save(user=self.request.user)
+    
