@@ -25,3 +25,29 @@ class PublicIngredientsApiTest(TestCase):
     def test_login_required(self):
 
         """ Probar que login es necesario para acceder al endpoint """
+
+        res = self.client.get(INGREDIENTS_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+class PrivateIngredientsApiTest(TestCase):
+
+    """ Probar API de ingredients accesibles privadamente """
+
+    def setUp(self):
+
+        self.client = APIClient()
+
+        self.user = get_user_model().objects.create_user(
+
+            'test@datadosis.com',
+
+            'testpass'
+
+        )
+
+        self.client.force_authenticate(self.user)
+
+    def test_retrieve_ingredient_list(self):
+
+        """ Probar obtener lista de ingredientes """
