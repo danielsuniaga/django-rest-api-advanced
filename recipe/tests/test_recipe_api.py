@@ -219,20 +219,5 @@ class RecipeImageUploadTests(TestCase):
 
         self.recipe.image.delete()
 
-    def test_upload_image_to_recipe(self):
-
-        """ Probar subir imagen o receta """
-
-        url = image_upload_url(self.recipe.id)
-
-        with tempfile.NamedTemporaryFile(suffix='.jpg') as ntf:
-
-            img = Image.new('RGB', (10,10))
-
-            img.save(ntf, format='JPEG')
-
-            ntf.seek(0)
-
-            res = self.client.post(url, {'image':ntf}, format='multipart')
-
+    
         
