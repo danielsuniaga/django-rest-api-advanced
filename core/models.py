@@ -2,9 +2,21 @@ from email.policy import default
 from turtle import Turtle
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+import uuid
+import os
 
 from django.conf import settings
 # Create your models here.
+
+def recipe_image_file_patch(instance, filename):
+
+    """ Genera path para imagenes """
+
+    ext = filename.split('.')[-1]
+
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/recipe/', filename)
 
 class UserManager(BaseUserManager):
 
@@ -103,6 +115,8 @@ class Recipe(models.Model):
     )
 
     title = models.CharField(max_length=255)
+
+    image = models.ImageField(null=True, upload_to=recipe_image_file_patch)
 
     time_minutes = models.IntegerField()
 
